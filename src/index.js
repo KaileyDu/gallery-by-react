@@ -1,8 +1,23 @@
+/* eslint-disable*/
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from 'react-dom';
+import { AppContainer } from 'react-hot-loader';
+import 'babel-polyfill';
 import App from './App';
 
-ReactDOM.render(
-  <App />,
-  document.getElementById('app')
-)
+const renderDom = Component => {
+    render(
+      <AppContainer>
+        <Component />
+      </AppContainer>,
+      document.getElementById('app')
+    );
+};
+renderDom(App);
+
+if (module.hot) {
+    module.hot.accept('./App', () => {
+        const App = require('./App').default;
+        renderDom(App);
+    })
+}
